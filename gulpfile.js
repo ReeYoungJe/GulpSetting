@@ -5,6 +5,7 @@ const sourcemaps = require('gulp-sourcemaps')
 const concat = require('gulp-concat');
 const sass = require('gulp-sass')(require('sass'));
 const csso = require('gulp-csso')
+const fs = require('fs')
 /**
  * ==============================+
  * 경로
@@ -79,4 +80,15 @@ task('watch',series('sass',(done)=>{
 }));
 
 
+
+task('event',async (done)=>{
+    const selectFolder = require('./node_custormModules/selectFolder');
+    const eventPageFilter = require('./node_custormModules/eventPageFilter')
+
+    const eventHtml = await selectFolder('./src/resource/event/inc');
+    const eventFiles = eventPageFilter(eventHtml);
+
+    await fs.writeFileSync('./src/convention/worklist/eventlist.json',JSON.stringify(eventFiles))
+    done();
+})
 
