@@ -31,25 +31,26 @@ const paths = {
 const sassFn = (done) => {
 
     src(paths.scss)
-        .pipe(sass.sync({outputStyle: 'expanded'}).on('error', sass.logError)) //sass 컴파일
+        .pipe(sass.sync().on('error', sass.logError)) //sass 컴파일
         //.pipe()
         .pipe(autoprefixer({cascade: true})) //vendor - prefix 달아주기
         //.pipe(csso())
-        .pipe(replace('"UTF-8";', '"UTF-8"\n'))
         .pipe(replace('@charset "UTF-8";', ''))
         .pipe(insert.prepend('@charset "UTF-8"; \n'))
-        .pipe(replace(/}/g, '}\n'))
-        //.pipe(replace('/*!', '\n/*!'))
+        .pipe(replace('/*!', '\n/*!\n'))
         .pipe(replace('{.', '{\n\t.'))
+        .pipe(replace(/}/g, '}\n'))
         .pipe(sourcemaps.write('./maps')) // 소스맵 뿌려주고
         .pipe(dest('./src/dist/css/')) //css 폴더에 styles 생성
     src(paths.scssDist)
         //.pipe(csso())
-        .pipe(replace('@charset "UTF-8";', ''))
         .pipe(concat('common.min.css')) //./src/dist/css/_entry/**/*.css 에 모든 css 파일을  합치기
-        .pipe(dest('./src/dist/css/'))
-        .pipe(replace('"UTF-8"', '"UTF-8"; \n'))
+        .on('end', () => {
+            console.log('---------- concat 완료 ----------')
+        })
+        .pipe(replace('@charset "UTF-8";', ''))
         .pipe(insert.prepend('@charset "UTF-8"; \n'))
+        .pipe(dest('./src/dist/css/'))
         .on('end', () => {
             console.log('./src/dist/css/common.min.css DIst 배포 완료')
         })

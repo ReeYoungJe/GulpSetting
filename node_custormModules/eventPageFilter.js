@@ -21,7 +21,7 @@ module.exports = (filelist) =>{
                title:title[0].replace("<!--","").replace('-->',""),
                fileName:fileName,
                path: path,
-               url:'',
+               url: path.split('/')[0].replace('./','../') + path
            }
            pages.push(DATA);
        }

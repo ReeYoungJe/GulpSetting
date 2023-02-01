@@ -1,32 +1,62 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="../../../src/dist/css/common.min.css">
+    <script src="../../../src/common/js/lib/jquery-2.2.4.min.js"></script>
+    <title>Event 리스트</title>
 </head>
 <body>
-    <header>
-        <div class="h-in">
-            <nav class="h-nav">
-                <ul>
-                    <li>메뉴1</li>
-                    <li>메뉴2</li>
-                    <li>메뉴3</li>
-                </ul>
-            </nav>
+<header class="header">
+    <div class="header__in">
+        <div class="header__in__logo">
+            <h1><a href="/">Gate</a></h1>
         </div>
-        헤더
-    </header>
-    <div class="main">
-        <div class="click">
-            건들면커짐
-        </div>
+        <nav class="header__in__nav">
+            <ul>
+                <li><a href="../../../src/convention/events/index.html">Event</a></li>
+                <li><a href="#none">Guide</a></li>
+            </ul>
+        </nav>
     </div>
-    <footer>
-        푸터
-    </footer>
+</header>
+<main class="eventList" id="eventList">
+    <section>
+        <ul>
+            <li class="asd"></li>
+        </ul>
+    </section>
+</main>
+
+
+<script>
+
+    $(function () {
+        setEvents('./eventList.json')
+
+        function setEvents(dataUrl) {
+            $.ajax({
+                url: dataUrl,
+                method: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    console.log(data)
+                    $.each(data, (index, item) => {
+                        $('#eventList ul li').append(`<div><a href='${data[index].url}'>${data[index].title}</a></div>`)
+                    })
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+            // $('.asd').html('asdasd');
+
+        }
+
+    })
+</script>
 </body>
 </html>
