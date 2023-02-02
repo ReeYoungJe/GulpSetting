@@ -5,12 +5,13 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
+    padding:10px;
     &__logo{
-      h1{ background:#fff; color:#333;  font-size:42px;}
+      h1{ color:#fff;  font-size:42px; font-weight: normal}
     }
     &__nav{
       display: flex;
-      padding-left: 100px;
+      padding-left: 30px;
       ul{
         display: flex;
         flex: 1;
