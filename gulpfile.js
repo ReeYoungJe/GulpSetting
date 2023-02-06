@@ -10,6 +10,10 @@ const replace = require('gulp-replace');
 const insert = require('gulp-insert');
 const csscomb = require('gulp-csscomb');
 
+
+
+const ejs = require('gulp-ejs');   //e -js
+
 /**
  * ==============================+
  * 경로
@@ -18,9 +22,9 @@ const csscomb = require('gulp-csscomb');
 
 const paths = {
     scss: './src/common/scss/**/*.scss',
-    scssDist: './src/dist/css/_entry/**/*.css',
+    scssDist: './dist/css/_entry/**/*.css',
     js: './src/common/js/*.js',
-    jsDist: './src/dist/js/**/*.js'
+    jsDist: './dist/js/**/*.js'
 };
 
 /**
@@ -41,7 +45,7 @@ const sassFn = (done) => {
         .pipe(replace('{.', '{\n\t.'))
         .pipe(replace(/}/g, '}\n'))
         .pipe(sourcemaps.write('./maps')) // 소스맵 뿌려주고
-        .pipe(dest('./src/dist/css/')) //css 폴더에 styles 생성
+        .pipe(dest('./dist/css/')) //css 폴더에 styles 생성
     src(paths.scssDist)
         //.pipe(csso())
         .pipe(concat('common.min.css')) //./src/dist/css/_entry/**/*.css 에 모든 css 파일을  합치기
@@ -50,9 +54,9 @@ const sassFn = (done) => {
         })
         .pipe(replace('@charset "UTF-8";', ''))
         .pipe(insert.prepend('@charset "UTF-8"; \n'))
-        .pipe(dest('./src/dist/css/'))
+        .pipe(dest('./dist/css/'))
         .on('end', () => {
-            console.log('./src/dist/css/common.min.css DIst 배포 완료')
+            console.log('./dist/css/common.min.css DIst 배포 완료')
         })
 
     if (done) {
@@ -63,7 +67,7 @@ const sassFn = (done) => {
 const jsFn = (done) => {
     src(paths.js)
         .pipe(uglify())
-        .pipe(dest('./src/dist/js')); // dist 폴더에 병합한 파일 생성
+        .pipe(dest('./dist/js')); // dist 폴더에 병합한 파일 생성
     if (done) {
         done();
     }
@@ -72,7 +76,7 @@ const jsFn = (done) => {
 const jsDistFn = (done) => {
     src(paths.jsDist)
         .pipe(concat('main.min.js')) // main.js로 파일이름을 짓고 병합
-        .pipe(dest('./src/dist/js')); // dist 폴더에 병합한 파일 생성
+        .pipe(dest('./dist/js')); // dist 폴더에 병합한 파일 생성
     if (done) {
         done();
     }
